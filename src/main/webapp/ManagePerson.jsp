@@ -57,6 +57,9 @@
         <td>Отчество:</td>
         <td><input type="text" name="middlename" value="<%=person.getMiddlename()%>"/></td>
     </tr>
+    <%
+    if (!person.getId().equals("0")) {
+    %>
     <tr>
         <td>Телефоны:</td>
         <td>
@@ -68,6 +71,10 @@
          %></textarea>
         </td>
     </tr>
+    <%
+    }
+    %>
+
     <tr>
         <td colspan="2" align="center">
          <input type="submit" name="<%=jsp_parameters.get("next_action")%>" value="<%=jsp_parameters.get("next_action_label")%>" />
