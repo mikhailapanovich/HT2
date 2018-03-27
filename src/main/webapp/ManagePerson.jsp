@@ -23,7 +23,7 @@
 
 	if (request.getAttribute("person") != null)
 	{
-		person=(Person)request.getAttribute("person");
+		person = (Person)request.getAttribute("person");
 	}
 	
 	error_message = jsp_parameters.get("error_message");
@@ -58,7 +58,7 @@
         <td><input type="text" name="middlename" value="<%=person.getMiddlename()%>"/></td>
     </tr>
     <%
-    if (!person.getId().equals("0")) {
+    if (jsp_parameters.get("current_action").equals("edit")) {
     %>
     <tr>
         <td>Телефоны:</td>
