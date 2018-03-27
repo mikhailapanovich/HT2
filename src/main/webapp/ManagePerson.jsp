@@ -63,12 +63,18 @@
     <tr>
         <td>Телефоны:</td>
         <td>
-         <textarea name="phones" cols="40" rows="5"><%
-          for(String phone : person.getPhones().values())
-           {
-         	out.write(phone + "\n");
-           }
-         %></textarea>
+        	<table align="center"  width="100%">
+				<% for(HashMap.Entry<String, String> phoneEntry : person.getPhones().entrySet()) { %>
+				<tr>
+					<td><%= phoneEntry.getValue()%></td>
+					<td><a href="<%=request.getContextPath()%>/?action=edit_number&id=<%=phoneEntry.getKey()%>">Редактировать</a></td>
+					<td><a href="<%=request.getContextPath()%>/?action=delete_number&id=<%=phoneEntry.getKey()%>">Удалить</a></td>
+				</tr>
+				<% } %>
+				<tr>
+					<td colspan="3"><a href="<%=request.getContextPath()%>/?action=add_number&id=<%=person.getId()%>">Добавить</a></td>
+				</tr>
+			</table>
         </td>
     </tr>
     <%
