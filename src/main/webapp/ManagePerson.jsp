@@ -63,7 +63,7 @@
     <tr>
         <td>Телефоны:</td>
         <td>
-        	<table align="center"  width="100%">
+        	<table width="100%">
 				<% for(HashMap.Entry<String, String> phoneEntry : person.getPhones().entrySet()) { %>
 				<tr>
 					<td><%= phoneEntry.getValue()%></td>
@@ -83,7 +83,8 @@
 
     <tr>
         <td colspan="2" align="center">
-         <input type="submit" name="<%=jsp_parameters.get("next_action")%>" value="<%=jsp_parameters.get("next_action_label")%>" />
+         <input type="submit" name="<%=jsp_parameters.get("next_action")%>" value="<%=jsp_parameters.get("next_action_label")%>" /><br>
+         <a href="<%=request.getContextPath()%>">Вернуться к списку</a>
         </td>
     </tr> 
  </table>
