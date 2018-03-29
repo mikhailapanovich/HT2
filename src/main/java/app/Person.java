@@ -87,6 +87,27 @@ public class Person {
 	    
 	}
 	
+	// Удаление номера телефона человека из списка в объекте
+	public boolean deletePhoneNumber(String id) {
+		if (phones.containsKey(id)) {
+			this.phones.remove(id);
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	//  Добавление номера телефона человеку
+	public boolean addPhoneNumber(String phone) {
+		String key = "unique" + phone;
+		if (!phones.containsKey(key) && !phones.containsValue(phone)) {
+			this.phones.put("unique" + phone, phone);
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
 	// ++++++++++++++++++++++++++++++++++++++
 	// Геттеры и сеттеры
 	public String getId()
@@ -141,6 +162,22 @@ public class Person {
 		this.middlename = middlename;
 	}
 
+	//  Замена номера телефона человека
+	public boolean setPhoneNumber(String id, String phone) {
+		// ничего не меняем если номер остался прежним
+		if (phones.get(id).equals(phone)) {
+			return true;
+		}
+		
+		// если номер изменился и нет его повторов у человека
+		if (phones.containsKey(id) && !phones.containsValue(phone)) {
+			this.phones.put(id, phone);
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
 	//TODO: start to use or delete
 	public void setPhones(HashMap<String,String> phones)
 	{
