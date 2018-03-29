@@ -72,19 +72,15 @@ public class Person {
 
 	// Валидация частей ФИО. Для отчества можно передать второй параетр == true,
 	// тогда допускается пустое значение.
-	public boolean validateFMLNamePart(String fml_name_part, boolean empty_allowed)
-	{
-	    if (empty_allowed)
-	    {
-	    	Matcher matcher = Pattern.compile("[\\wа-яА-Я-]{0,150}").matcher(fml_name_part);
+	public boolean validateFMLNamePart(String fml_name_part, boolean empty_allowed) {
+		
+	    if (empty_allowed) {
+	    	Matcher matcher = Pattern.compile("[\\wёЁа-яА-Я-]{0,150}").matcher(fml_name_part);
+	    	return matcher.matches();
+	    } else {
+	    	Matcher matcher = Pattern.compile("[\\wёЁа-яА-Я-]{1,150}").matcher(fml_name_part);
 	    	return matcher.matches();
 	    }
-	    else
-	    {
-	    	Matcher matcher = Pattern.compile("[\\wа-яА-Я-]{1,150}").matcher(fml_name_part);
-	    	return matcher.matches();
-	    }
-	    
 	}
 	
 	// Удаление номера телефона человека из списка в объекте
