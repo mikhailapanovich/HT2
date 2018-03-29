@@ -18,6 +18,10 @@ public class ManagePersonServlet extends HttpServlet {
 	
 	// Основной объект, хранящий данные телефонной книги.
 	private Phonebook phonebook;
+	
+	// Редактируемый Person в данной сессии 
+	private Person sessionPerson;
+
        
     public ManagePersonServlet()
     {
@@ -66,22 +70,12 @@ public class ManagePersonServlet extends HttpServlet {
  // Валидация телефонного немера и генерация сообщения об ошибке в случае невалидных данных.
     private String validatePhoneNumber(String number)
     {
-		String error_message = "Validation has not been implemented!";
+		String error_message = "";
 		
-		/*if (!person.validateFMLNamePart(person.getName(), false))
+		if (!Phone.validatePhoneNumber(number))
 		{
-			error_message += "Имя должно быть строкой от 1 до 150 символов из букв, цифр, знаков подчёркивания и знаков минус.<br />";
+			error_message += "Телефонный номер должен быть от 2 до 50 символов из цифр, знаков плюс, минус и знаков решетки.<br />";
 		}
-		
-		if (!person.validateFMLNamePart(person.getSurname(), false))
-		{
-			error_message += "Фамилия должна быть строкой от 1 до 150 символов из букв, цифр, знаков подчёркивания и знаков минус.<br />";
-		}
-		
-		if (!person.validateFMLNamePart(person.getMiddlename(), true))
-		{
-			error_message += "Отчество должно быть строкой от 0 до 150 символов из букв, цифр, знаков подчёркивания и знаков минус.<br />";
-		}*/
 		
 		return error_message;
     }
@@ -126,7 +120,7 @@ public class ManagePersonServlet extends HttpServlet {
         		// Добавление записи.
         		case "add":
         			// Создание новой пустой записи о пользователе.
-        			Person empty_person = new Person();
+        			sessionPerson = new Person();
         			
         			// Подготовка параметров для JSP.
         			jsp_parameters.put("current_action", "add");
@@ -134,7 +128,7 @@ public class ManagePersonServlet extends HttpServlet {
         			jsp_parameters.put("next_action_label", "Добавить");
         			
         			// Установка параметров JSP.
-        			request.setAttribute("person", empty_person);
+        			request.setAttribute("person", sessionPerson);
         			request.setAttribute("jsp_parameters", jsp_parameters);
         			
         			// Передача запроса в JSP.
@@ -144,7 +138,7 @@ public class ManagePersonServlet extends HttpServlet {
         		// Редактирование записи.
         		case "edit":
         			// Извлечение из телефонной книги информации о редактируемой записи.        			
-        			Person editable_person = this.phonebook.getPerson(id);
+        			sessionPerson = new Person(this.phonebook.getPerson(id));
         			
         			// Подготовка параметров для JSP.
         			jsp_parameters.put("current_action", "edit");
@@ -152,7 +146,7 @@ public class ManagePersonServlet extends HttpServlet {
         			jsp_parameters.put("next_action_label", "Сохранить");
 
         			// Установка параметров JSP.
-        			request.setAttribute("person", editable_person);
+        			request.setAttribute("person", sessionPerson);
         			request.setAttribute("jsp_parameters", jsp_parameters);
         			
         			// Передача запроса в JSP.
@@ -236,17 +230,17 @@ public class ManagePersonServlet extends HttpServlet {
 		if (add_go != null)
 		{
 			// Создание записи на основе данных из формы.
-			Person new_person = new Person(request.getParameter("name"), request.getParameter("surname"), request.getParameter("middlename"));
+			sessionPerson = new Person(request.getParameter("name"), request.getParameter("surname"), request.getParameter("middlename"));
 
 			// Валидация ФИО.
-			String error_message = this.validatePersonFMLName(new_person); 
+			String error_message = this.validatePersonFMLName(sessionPerson); 
 			
 			// Если данные верные, можно производить добавление.
 			if (error_message.equals(""))
 			{
 
 				// Если запись удалось добавить...
-				if (this.phonebook.addPerson(new_person))
+				if (this.phonebook.addPerson(sessionPerson))
 				{
 					jsp_parameters.put("current_action_result", "ADDITION_SUCCESS");
 					jsp_parameters.put("current_action_result_label", "Добавление выполнено успешно");
@@ -274,7 +268,7 @@ public class ManagePersonServlet extends HttpServlet {
     			jsp_parameters.put("error_message", error_message);
     			
     			// Установка параметров JSP.
-    			request.setAttribute("person", new_person);
+    			request.setAttribute("person", sessionPerson);
     			request.setAttribute("jsp_parameters", jsp_parameters);
     			
     			// Передача запроса в JSP.
@@ -285,21 +279,19 @@ public class ManagePersonServlet extends HttpServlet {
 		// Редактирование записи.
 		if (edit_go != null)
 		{
-			// Получение записи и её обновление на основе данных из формы.
-			Person updatable_person = this.phonebook.getPerson(request.getParameter("id")); 
-			updatable_person.setName(request.getParameter("name"));
-			updatable_person.setSurname(request.getParameter("surname"));
-			updatable_person.setMiddlename(request.getParameter("middlename"));
+			// Обновление сессии на основе данных из формы.
+			sessionPerson.setName(request.getParameter("name"));
+			sessionPerson.setSurname(request.getParameter("surname"));
+			sessionPerson.setMiddlename(request.getParameter("middlename"));
 
 			// Валидация ФИО.
-			String error_message = this.validatePersonFMLName(updatable_person); 
+			String error_message = this.validatePersonFMLName(sessionPerson); 
 			
 			// Если данные верные, можно производить добавление.
 			if (error_message.equals(""))
 			{
-			
 				// Если запись удалось обновить...
-				if (this.phonebook.updatePerson(id, updatable_person))
+				if (this.phonebook.updatePerson(sessionPerson))
 				{
 					jsp_parameters.put("current_action_result", "UPDATE_SUCCESS");
 					jsp_parameters.put("current_action_result_label", "Обновление выполнено успешно");
@@ -328,7 +320,7 @@ public class ManagePersonServlet extends HttpServlet {
     			jsp_parameters.put("error_message", error_message);
 
     			// Установка параметров JSP.
-    			request.setAttribute("person", updatable_person);
+    			request.setAttribute("person", sessionPerson);
     			request.setAttribute("jsp_parameters", jsp_parameters);
     			
     			// Передача запроса в JSP.
@@ -350,7 +342,6 @@ public class ManagePersonServlet extends HttpServlet {
 			// Если данные верные, можно производить добавление.
 			if (error_message.equals(""))
 			{
-
 				/*// Если запись удалось добавить...
 				if (this.phonebook.addPerson(new_person))
 				{
@@ -373,6 +364,9 @@ public class ManagePersonServlet extends HttpServlet {
 			// Если в данных были ошибки, надо заново показать форму и сообщить об ошибках.
 			else
 			{
+    			// Извлечение из телефонной книги информации о редактируемой записи.        			
+    			Person person = this.phonebook.getPerson(id);
+
     			// Подготовка параметров для JSP.
     			jsp_parameters.put("current_action", "add_phone");
     			jsp_parameters.put("next_action", "add_phone_go");
@@ -380,11 +374,11 @@ public class ManagePersonServlet extends HttpServlet {
     			jsp_parameters.put("error_message", error_message);
     			
     			// Установка параметров JSP.
-    			//request.setAttribute("person", );
+    			request.setAttribute("person", person);
     			request.setAttribute("jsp_parameters", jsp_parameters);
     			
     			// Передача запроса в JSP.
-    			dispatcher_for_manager.forward(request, response);
+    			dispatcher_for_phones.forward(request, response);
 			}
 		}
 	}
