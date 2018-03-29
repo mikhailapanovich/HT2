@@ -7,7 +7,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>Редактирование телефона</title>
+<title>Редактирование номера телефона</title>
 </head>
 <body>
 
@@ -30,7 +30,8 @@
 %>
 
 <form action="<%=request.getContextPath()%>/" method="post">
-<input type="hidden" name="id" value="<%=person.getId()%>"/>
+<input type="hidden" name="id" value="<%=request.getParameter("id")%>"/>
+<input type="hidden" name="phone_id" value="<%=request.getParameter("phone_id")%>"/>
 <table align="center" border="1" width="70%">
     <%
     if ((error_message != null)&&(!error_message.equals("")))
@@ -47,14 +48,19 @@
     </tr>
     <tr>
         <td>Номер:</td>
-        <td><input type="text" name="phoneNumber" value="<%=person.getSurname()%>"/></td>
+        <%
+        String number = person.getPhones().get(request.getParameter("phone_id"));
+        number = (number != null) ? number : "";
+        %>
+        <td><input type="text" name="phone_number" value="<%=number%>"/></td>
     </tr>
     <tr>
         <td colspan="2" align="center">
-         <input type="submit" name="<%=jsp_parameters.get("next_action")%>" value="<%=jsp_parameters.get("next_action_label")%>" />
+         <input type="submit" name="<%=jsp_parameters.get("next_action")%>" value="<%=jsp_parameters.get("next_action_label")%>" /><br />
+         <a href="<%=request.getContextPath()%>/?action=edit&id=<%=person.getId()%>">Вернуться к данным о человеке</a>
         </td>
     </tr> 
- </table>
- </form>
+</table>
+</form>
 </body>
 </html>

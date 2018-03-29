@@ -67,12 +67,12 @@
 				<% for(HashMap.Entry<String, String> phoneEntry : person.getPhones().entrySet()) { %>
 				<tr>
 					<td><%= phoneEntry.getValue()%></td>
-					<td><a href="<%=request.getContextPath()%>/?action=edit_number&id=<%=phoneEntry.getKey()%>">Редактировать</a></td>
-					<td><a href="<%=request.getContextPath()%>/?action=delete_number&id=<%=phoneEntry.getKey()%>">Удалить</a></td>
+					<td><a href="<%=request.getContextPath()%>/?action=edit_phone&id=<%=person.getId()%>&phone_id=<%=phoneEntry.getKey()%>">Редактировать</a></td>
+					<td><a href="<%=request.getContextPath()%>/?action=delete_phone&id=<%=person.getId()%>&phone_id=<%=phoneEntry.getKey()%>">Удалить</a></td>
 				</tr>
 				<% } %>
 				<tr>
-					<td colspan="3"><a href="<%=request.getContextPath()%>/?action=add_number&id=<%=person.getId()%>">Добавить</a></td>
+					<td colspan="3"><a href="<%=request.getContextPath()%>/?action=add_phone&id=<%=person.getId()%>">Добавить</a></td>
 				</tr>
 			</table>
         </td>
@@ -83,11 +83,11 @@
 
     <tr>
         <td colspan="2" align="center">
-         <input type="submit" name="<%=jsp_parameters.get("next_action")%>" value="<%=jsp_parameters.get("next_action_label")%>" /><br>
+         <input type="submit" name="<%=jsp_parameters.get("next_action")%>" value="<%=jsp_parameters.get("next_action_label")%>" /><br />
          <a href="<%=request.getContextPath()%>">Вернуться к списку</a>
         </td>
     </tr> 
- </table>
- </form>
+</table>
+</form>
 </body>
 </html>
