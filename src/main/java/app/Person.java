@@ -62,6 +62,13 @@ public class Person {
 		this.surname = surname;
 		this.middlename = middlename;
 	}
+	
+	// Конструктор для создания новой записи на основе уже существующей
+	public Person(Person person) {
+		this(person.getName(), person.getSurname(), person.getMiddlename());
+		this.id = person.getId();
+		this.phones = new HashMap<>(person.getPhones());
+	}
 
 	// Валидация частей ФИО. Для отчества можно передать второй параетр == true,
 	// тогда допускается пустое значение.
@@ -134,6 +141,7 @@ public class Person {
 		this.middlename = middlename;
 	}
 
+	//TODO: start to use or delete
 	public void setPhones(HashMap<String,String> phones)
 	{
 		this.phones = phones;
