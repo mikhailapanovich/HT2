@@ -35,8 +35,7 @@ public class ManagePersonServlet extends HttpServlet {
 			e.printStackTrace();
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}        
-        
+		}               
     }
 
     // Валидация ФИО и генерация сообщения об ошибке в случае невалидных данных.

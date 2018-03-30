@@ -19,13 +19,11 @@ public class Phonebook {
 	private static Phonebook instance = null;
 	
 	// Метод для получения экземпляра класса (реализован Singleton).
-	public static Phonebook getInstance() throws ClassNotFoundException, SQLException
-	{
-		if (instance == null)
-		{
+	public static Phonebook getInstance() throws ClassNotFoundException, SQLException {
+		
+		if (instance == null) {
 	         instance = new Phonebook();
 	    }
-	
 		return instance;
 	}
 	
@@ -39,25 +37,21 @@ public class Phonebook {
 	}
 	
 	// Добавление записи о человеке.
-	public boolean addPerson(Person person)
-	{
+	public boolean addPerson(Person person) {
+		
 		String query;
 		
 		// У человека может не быть отчества.
-		if (!person.getSurname().equals(""))
-		{
+		if (!person.getSurname().equals("")) {
 			query = "INSERT INTO `person` (`name`, `surname`, `middlename`) VALUES ('" + person.getName() +"', '" + person.getSurname() +"', '" + person.getMiddlename() + "')";
-		}
-		else
-		{
+		} else {
 			query = "INSERT INTO `person` (`name`, `surname`) VALUES ('" + person.getName() +"', '" + person.getSurname() +"')";
 		}
 		
 		Integer affected_rows = this.db.changeDBData(query);
 		
 		// Если добавление прошло успешно...
-		if (affected_rows > 0)
-		{
+		if (affected_rows > 0) {
 			person.setId(this.db.getLastInsertId().toString());
 			
 			// Добавляем запись о человеке в общий список.
@@ -65,10 +59,7 @@ public class Phonebook {
 			
 			return true;
 		}
-		else
-		{
-			return false;
-		}
+		return false;
 	}
 
 	
@@ -151,13 +142,11 @@ public class Phonebook {
 
 	// +++++++++++++++++++++++++++++++++++++++++
 	// Геттеры и сеттеры
-	public HashMap<String,Person> getContents()
-	{
+	public HashMap<String,Person> getContents() {
 		return persons;
 	}
 	
-	public Person getPerson(String id)
-	{
+	public Person getPerson(String id) {
 		return this.persons.get(id);
 	}
 	// Геттеры и сеттеры
