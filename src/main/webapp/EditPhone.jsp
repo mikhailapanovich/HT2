@@ -17,7 +17,6 @@
 	String phone_id = request.getParameter("phone_id");
 	String phone_number = "";
 	String error_message = "";
-	String user_message = "";
 
 	if (request.getAttribute("jsp_parameters") != null)	{
 		jsp_parameters = (HashMap<String,String>)request.getAttribute("jsp_parameters");
@@ -32,7 +31,6 @@
 	}
 	
 	error_message = jsp_parameters.get("error_message");
-	user_message = jsp_parameters.get("current_action_result_label");
 %>
 
 <form action="<%= request.getContextPath() %>/" method="post">
@@ -43,12 +41,6 @@
 <%  if ((error_message != null)&&(!error_message.equals(""))) { %>
   <tr>
     <td colspan="2" align="center"><span style="color:red"><%= error_message %></span></td>
-  </tr>
-<%  } %>
-
-<%	if ((user_message != null)&&(!user_message.equals(""))) { %>
-  <tr>
-    <td colspan="2" align="center"><span style="color:red"><%=user_message%></span></td>
   </tr>
 <%  } %>
 

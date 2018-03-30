@@ -84,13 +84,12 @@ public class Person {
 	}
 	
 	// Удаление номера телефона человека из списка в объекте
-	public boolean deletePhoneNumber(String id) {
-		if (phones.containsKey(id)) {
-			this.phones.remove(id);
+	public boolean deletePhoneNumber(String phone_id) {
+		if (phones.containsKey(phone_id)) {
+			this.phones.remove(phone_id);
 			return true;
-		} else {
-			return false;
 		}
+		return false;
 	}
 	
 	//  Добавление номера телефона человеку
@@ -172,12 +171,6 @@ public class Person {
 		} else {
 			return false;
 		}
-	}
-	
-	//TODO: start to use or delete
-	public void setPhones(HashMap<String,String> phones)
-	{
-		this.phones = phones;
 	}
 	// Геттеры и сеттеры
 	// --------------------------------------

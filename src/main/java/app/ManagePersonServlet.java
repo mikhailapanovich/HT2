@@ -317,7 +317,7 @@ public class ManagePersonServlet extends HttpServlet {
     			error_message = this.validatePersonFMLName(sessionPerson); 
     			
     			// Если данные верные, можно производить добавление.
-    			if (error_message.equals("")) {
+    			if (error_message.equals("")) { 
     				
     				// Если запись удалось обновить...
     				if (this.phonebook.updatePerson(sessionPerson)) {
@@ -378,8 +378,11 @@ public class ManagePersonServlet extends HttpServlet {
     				// Передача запроса в JSP.
     				dispatcher_for_manager.forward(request, response);
     			} else {
+    				if (error_message.equals("")) {
+    					error_message = "Запись с таким номером уже существует";
+    				}
+    				
         			// Подготовка параметров для JSP.
-    				jsp_parameters.put("current_action_result_label", "Запись с таким номером уже существует");
         			jsp_parameters.put("current_action", "add_phone");
         			jsp_parameters.put("next_action", "add_phone_go");
         			jsp_parameters.put("next_action_label", "Добавить номер");
@@ -418,8 +421,11 @@ public class ManagePersonServlet extends HttpServlet {
     				// Передача запроса в JSP.
     				dispatcher_for_manager.forward(request, response);
     			} else {
+    				if (error_message.equals("")) {
+    					error_message = "Запись с таким номером уже существует";
+    				}
+    				
         			// Подготовка параметров для JSP.
-    				jsp_parameters.put("current_action_result_label", "Запись с таким номером уже существует");
         			jsp_parameters.put("current_action", "edit_phone");
         			jsp_parameters.put("next_action", "edit_phone_go");
         			jsp_parameters.put("next_action_label", "Сохранить номер");
