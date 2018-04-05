@@ -251,7 +251,6 @@ public class ManagePersonServlet extends HttpServlet {
 		
 		// Действие (action) и идентификатор записи (id) над которой выполняется это действие.
 		String action = request.getParameter("action");
-		String id = request.getParameter("id");
 		String phone_id = request.getParameter("phone_id");
 		String phoneNumber;
 		

@@ -88,7 +88,7 @@ public class Person {
 	public boolean addPhoneNumber(String phone) {
 		String key = "unique" + phone;
 		if (!phones.containsKey(key) && !phones.containsValue(phone)) {
-			this.phones.put("unique" + phone, phone);
+			this.phones.put(key, phone);
 			return true;
 		} else {
 			return false;
